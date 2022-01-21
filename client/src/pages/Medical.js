@@ -6,6 +6,7 @@ import axios from "axios";
 import { Container } from "../styles";
 import MedicalDetail from "../components/MedicalDetail";
 import { category } from "../modules/category";
+import { MdOutlineLocalHospital } from "react-icons/md";
 
 // import cn from "classnames";
 
@@ -24,6 +25,7 @@ const MedicalTitle = styled.h1`
   margin-bottom: 2vw;
   @media ${({ theme }) => theme.device.mobile} {
     font-size: 20px;
+    margin-bottom: 6vw;
   }
 `;
 
@@ -62,28 +64,53 @@ const Options = styled.option`
 `;
 
 const ListDivBox = styled.div`
-  padding: 2rem;
+  padding: 0.3rem;
   border: border-box;
-  border: 2px solid #63b5f6;
+  border: 3px solid #63b5f6;
   background: #fafafa;
-  width: 20%;
+  width: 21%;
   float: left;
   font-size: 12px;
+  height: 450px;
+  margin-left: 15px;
+  border-radius: 10px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   & div {
-    margin-bottom: 4px;
+    margin-bottom: 3px;
+    @media ${({ theme }) => theme.device.mobile} {
+      margin-bottom: 5px;
+    }
   }
   & h3 {
     margin-bottom: 1rem;
+    color: #03a9f4;
+  }
+  & h2 {
+    text-align: center;
+    padding: 5px;
+    margin: 10px;
+    color: #37474f;
   }
   @media ${({ theme }) => theme.device.mobile} {
     width: 100%;
-    font-size: 5px;
+    font-size: 14px;
+    margin-left: 0;
+    height: 100%;
+  }
+  @media screen and (width: 768px) {
+    width: 20%;
   }
 `;
 
 const HoverTag = styled.div`
   cursor: pointer;
-  padding: 0.5vw;
+  padding: 0.3vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   &:hover {
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.hover};
@@ -92,16 +119,21 @@ const HoverTag = styled.div`
 `;
 
 const HMap = styled.div`
-  with: 100%;
-  height: 25vw;
-  border: 2px solid #63b5f6;
+  width: 77%;
+  height: 450px;
+  border: 3px solid #63b5f6;
   border-radius: 10px;
   margin-bottom: 20px;
   z-index: 0;
+  float: left;
   @media ${({ theme }) => theme.device.mobile} {
-    height: 50vw;
-    font-size: 5px;
+    height: 60vw;
+    width: 100%;
   }
+`;
+
+const Clear = styled.div`
+  clear: both;
 `;
 
 const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
@@ -186,7 +218,7 @@ const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
       //   nowLocation.longitude,
       //   nowLocation.latitude
       // ),
-      level: 2,
+      level: 4,
     };
     const map = new kakao.maps.Map(container, options);
 
@@ -195,6 +227,7 @@ const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
     ps.keywordSearch(keyword, placesSearchCB, {
       x: nowLocation.longitude,
       y: nowLocation.latitude,
+      size: 5,
     });
 
     //맵 컨트롤러
@@ -262,11 +295,12 @@ const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
 
       kakao.maps.event.addListener(marker, "click", function () {
         infowindow.setContent(
-          '<div style="padding:5px;font-size:12px;">' +
+          '<span style="color:#095cd8;font-size:12px;">' +
             place.place_name +
-            "</div>"
+            "</span>"
           // 지도안의 마커 네임
         );
+
         infowindow.open(map, marker);
       });
     }
@@ -286,7 +320,9 @@ const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
     <MedicalContainer>
       <MedicalTitle>병원 목록 & 상세페이지</MedicalTitle>
       <Selector onChange={handler}>
-        <Options disabled>진료과목을 선택해 주세요.</Options>
+        <Options disabled selected>
+          진료과목을 선택해 주세요.
+        </Options>
         {category.map((el, i) => {
           if (el !== "전체") {
             return (
@@ -307,11 +343,15 @@ const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
       {/* 병원 리스트 start */}
       <ListDivBox>
         <div id="result-list">
+          <h2>
+            <MdOutlineLocalHospital style={{ verticalAlign: "top" }} /> Hospital
+            List
+          </h2>
           {Places.map((item, i) => (
             <div
               key={i}
               style={{
-                borderBottom: "2px solid #63b5f6",
+                borderBottom: "1px solid #63b5f6",
               }}
             >
               {/* <span style={{}}>{i + 1}</span> 각 병원의 순서 및 숫자*/}
@@ -331,10 +371,17 @@ const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
               </HoverTag>
             </div>
           ))}
-          <div id="pagination" style={{ textAlign: "center" }}></div>
+          <div
+            id="pagination"
+            style={{
+              textAlign: "center",
+              padding: "5px",
+            }}
+          ></div>
         </div>
       </ListDivBox>
 
+      <Clear />
       <MedicalDetail
         medicalInfo={medicalInfo}
         userInfo={userInfo}
@@ -342,7 +389,7 @@ const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
         auth={auth}
         // medicalPhoto={medicalPhoto}
       />
-      <div style={{ clear: "both" }}></div>
+      <Clear />
     </MedicalContainer>
   );
 };

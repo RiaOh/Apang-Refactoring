@@ -87,7 +87,7 @@ function Footer() {
             style={{ textDecoration: "none", color: "#fff" }}
             rel="noreferrer"
           >
-            <FaGithub /> 권상현 Front end
+            <FaGithub style={{ verticalAlign: "top" }} /> 권상현 Front end
           </a>
         </Careeres>
         <Careeres>
@@ -97,7 +97,7 @@ function Footer() {
             style={{ textDecoration: "none", color: "#fff" }}
             rel="noreferrer"
           >
-            <FaGithub /> 김경훈 Back end
+            <FaGithub style={{ verticalAlign: "top" }} /> 김경훈 Back end
           </a>
         </Careeres>
         <Careeres>
@@ -107,7 +107,7 @@ function Footer() {
             style={{ textDecoration: "none", color: "#fff" }}
             rel="noreferrer"
           >
-            <FaGithub /> 김장겸 Front end
+            <FaGithub style={{ verticalAlign: "top" }} /> 김장겸 Front end
           </a>
         </Careeres>
         <Careeres>
@@ -119,14 +119,14 @@ function Footer() {
               color: "#fff",
             }}
           >
-            <FaGithub /> 오예림 Back end
+            <FaGithub style={{ verticalAlign: "top" }} /> 오예림 Back end
           </a>
         </Careeres>
       </Lines>
 
       {/* --------{개인 소개 글 끝}------------ */}
 
-      <Title>© Copyright 2022 Apang. The Algoithm Team</Title>
+      <Title>© Copyright 2022 Apang. The Algoitsm Team</Title>
     </FooterContainer>
   );
 }
