@@ -145,12 +145,10 @@ function Nav({ isLogin, handleResponseSuccess, handleLogout, auth }) {
   const [signOpen, setSignOpen] = useState(false);
 
   const openSigninModal = () => {
-    console.log("로그인 모달 오픈되었나요?");
     setLoginOpen(!loginOpen);
   };
 
   const openSignupModal = () => {
-    console.log("일반회원가입 모달 오픈되었나요?");
     setSignOpen(!signOpen);
   };
 
@@ -253,7 +251,7 @@ function Nav({ isLogin, handleResponseSuccess, handleLogout, auth }) {
           <NavMenu>
             <ul id="main-menu">
               <li>
-                <img src={hamburger} alt="user" width="28rem"></img>
+                <img src={hamburger} alt="hamburger" width="28rem"></img>
 
                 <ul id="sub-menu">
                   {auth === 1 ? (

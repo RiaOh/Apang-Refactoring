@@ -251,7 +251,7 @@ function QnaPage({ isLogin, auth }) {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * 5;
   const [isLoading, setIsLoading] = useState(true);
-  console.log(parseInt(localStorage.getItem("auth")));
+  // console.log(parseInt(localStorage.getItem("auth")));
   //qna 전부 불러오기
   useEffect(() => {
     setIsLoading(true);

@@ -25,7 +25,7 @@ export const ModalBox = styled.div`
   width: 100%;
   height: 100%;
   max-width: 23rem;
-  max-height: 25rem;
+  max-height: 27rem;
   border-radius: 1rem;
   background-color: #fbf3ed;
   overflow: hidden;
@@ -77,24 +77,40 @@ export const LoginBody = styled.div`
     border-radius: 10px;
     &:focus {
       outline: 0.1rem solid #63b5f6;
+      border-radius: 10px;
     }
   }
 `;
 
 export const LoginFooter = styled.div`
-  padding: 0.1rem 1rem 1rem 6.8rem;
+  padding: 0.1rem 1rem 1rem 1rem;
   background-color: #fbf3ed;
+  .line {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: #b5afaf;
+    font-size: 0.5rem;
+    margin: 0.5rem;
+  }
+  .line::before,
+  .line::after {
+    content: "";
+    flex-grow: 1;
+    background: #dee2e6;
+    height: 0.1rem;
+    margin: 0 2rem;
+  }
 `;
 
 export const SocialLoginHeader = styled.div`
   font-size: 0.8rem;
   padding-top: 0.1rem;
-  padding-left: 1.2rem; //추가된것
+  padding-left: 1.2rem;
   padding-bottom: 1rem;
   background-color: #fbf3ed;
 `;
 
-// export const SocialLogin = styled(Link)``;
 export const SocialLogin = styled.a`
   padding: 0.1rem 1rem 1rem 0.8rem;
 `;
@@ -115,16 +131,77 @@ export const Button = styled.button`
   }
 `;
 
-export const ModalContainer = styled.div`
-  // TODO : Modal을 구현하는데 전체적으로 필요한 CSS를 구현합니다.
-  text-align: center;
-  padding: 8%;
-  border: 8%;
-`;
-
 export const Msg = styled.div`
   color: red;
   font-size: 13px;
+`;
+
+export const SocialKakaoLogin = styled.a``;
+
+export const SocialGoogleLogin = styled.a``;
+
+export const LoginFeet = styled.div`
+  padding: 1rem 0rem 0rem 0rem;
+  background-color: #fbf3ed;
+`;
+
+export const ButtonGoogle = styled.div`
+  & form {
+    margin: 0rem 2rem;
+    background: #4285f4;
+    white-space: nowrap;
+    padding: 0.5rem 0.8rem;
+    color: #ffffff;
+    color: black;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+  & button {
+    background: #4285f4;
+    white-space: nowrap;
+    color: #ffffff;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+  & img {
+    width: 1rem;
+    margin-right: 4.8rem;
+  }
+`;
+
+export const ButtonKakao = styled.div`
+  & form {
+    margin: 0rem 2rem;
+    background: #f7e600;
+    white-space: nowrap;
+    padding: 0.5rem 0.8rem;
+    color: #ffffff;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+  & button {
+    background: #f7e600;
+    white-space: nowrap;
+    color: black;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    text-decoration: none;
+  }
+  & img {
+    width: 1rem;
+    margin-right: 4.5rem;
+  }
 `;
 
 function SigninModal({ open, close, handleResponseSuccess }) {
@@ -230,13 +307,28 @@ function SigninModal({ open, close, handleResponseSuccess }) {
           <Button onClick={handleSignIn}>로그인</Button>
         </LoginBody>
         <LoginFooter>
-          <SocialLoginHeader>소셜계정으로 로그인</SocialLoginHeader>
-          <SocialLogin href={KAKAO_AUTH_URL} onClick={close}>
-            <img src={kakao} alt="kakaologin" width="48rem"></img>
-          </SocialLogin>
-          <SocialLogin href={GOOGLE_AUTHORIZE_URL} onClick={close}>
-            <img src={google} alt="googlelogin" width="48rem"></img>
-          </SocialLogin>
+          <div className="line">또는</div>
+          <LoginFeet>
+            <SocialKakaoLogin href={KAKAO_AUTH_URL}>
+              <ButtonKakao>
+                <form>
+                  <img src={kakao} alt="kakaologin"></img>
+                  <button type="button">카카오 로그인</button>
+                </form>
+              </ButtonKakao>
+            </SocialKakaoLogin>
+          </LoginFeet>
+
+          <LoginFeet>
+            <SocialGoogleLogin href={GOOGLE_AUTHORIZE_URL} onClick={close}>
+              <ButtonGoogle>
+                <form>
+                  <img src={google} alt="googlelogin"></img>
+                  <button type="button">구글 로그인</button>
+                </form>
+              </ButtonGoogle>
+            </SocialGoogleLogin>
+          </LoginFeet>
         </LoginFooter>
       </ModalBox>
     </ModalBackGround>

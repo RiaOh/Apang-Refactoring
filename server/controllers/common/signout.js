@@ -9,7 +9,7 @@ module.exports = (req, res) => {
     //이걸 그냥 if(req.body.auth)로 해버리니 0이나 없는거나 다 false로 받는다.
     if (req.body.auth === 0 || req.body.auth === 1 || req.body.auth === 2) {
       res.clearCookie("jwt").status(200).send({ message: "로그아웃 성공" });
-    } else {
+    } else if (req.body.auth === 4) {
       console.log(req.body.userid);
       const userid = req.body.userid;
       axios.post(
@@ -28,6 +28,14 @@ module.exports = (req, res) => {
       res.status(205).send({
         message: "카카오 로그아웃 성공",
       });
+    } else {
+      // axios.post(
+      //   `https://accounts.google.com/o/oauth2/revoke?token=${req.body.googleToken}`
+      // );
+      // res.status(200).send({
+      //   message: "Google Signout",
+      // });
+      res.status(200).send({ message: "로그아웃 성공" });
     }
   } catch (err) {
     console.log(err);

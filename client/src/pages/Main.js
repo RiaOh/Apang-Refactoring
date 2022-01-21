@@ -25,7 +25,7 @@ export const MainContainer = styled(Container)`
   @media ${({ theme }) => theme.device.mobile} {
     display: block;
     text-align: center;
-    margin-top: 50%;
+    margin-top: 30%;
     height: 100%;
   }
 `;
@@ -55,7 +55,7 @@ export const Title = styled.h1`
     margin-bottom: 1.3rem;
   }
   @media ${({ theme }) => theme.device.mobile} {
-    font-size: 1.5rem;
+    font-size: 2rem;
     text-align: center;
     margin-left: 0.5rem;
     margin-bottom: 1rem;
@@ -75,9 +75,9 @@ export const Text = styled.p`
     margin-left: 2rem;
   }
   @media ${({ theme }) => theme.device.mobile} {
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-align: center;
-    margin-left: 2.8rem;
+    margin-left: 1.8rem;
     margin-bottom: 1.3rem;
   }
 `;
@@ -275,7 +275,7 @@ export const Button = styled(Link)`
 
   @media ${({ theme }) => theme.device.mobile} {
     font-size: 0.8rem;
-    margin-left: 4rem;
+    margin-left: 4.3rem;
   }
 `;
 
@@ -296,7 +296,7 @@ export const SubTitle = styled.h1`
   @media ${({ theme }) => theme.device.mobile} {
     font-size: 1.5rem;
     text-align: center;
-    margin-right: 2.2rem;
+    margin-right: 2rem;
     margin-bottom: 1rem;
   }
 `;

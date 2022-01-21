@@ -8,8 +8,6 @@ import MedicalDetail from "../components/MedicalDetail";
 import { category } from "../modules/category";
 import { MdOutlineLocalHospital } from "react-icons/md";
 
-// import cn from "classnames";
-
 const { kakao } = window;
 
 export const MedicalContainer = styled(Container)`
@@ -341,6 +339,7 @@ const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
 
       {/* 지도 end */}
       {/* 병원 리스트 start */}
+
       <ListDivBox>
         <div id="result-list">
           <h2>

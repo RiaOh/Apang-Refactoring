@@ -24,6 +24,8 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null); //사용자 정보
   const [auth, setAuth] = useState("");
+  // const [qnaDetail, setqnaDetail] = useState(null);
+  // const [googleToken, setGoogleToken] = useState("");
 
   const isAuthenticated = () => {
     const authnumber = parseInt(localStorage.getItem("auth"));
@@ -107,6 +109,7 @@ function App() {
         {
           auth: auth,
           userid: localStorage.getItem("userid"),
+          // googleToken,
         },
         { withCredentials: true }
       )
@@ -126,28 +129,49 @@ function App() {
       });
   };
 
-  // const getGoogleToken = async (authorizationCode) => {
-  //   await axios({
-  //     url: `${process.env.REACT_APP_API_URL}/oauth/google`,
-  //     method: "post",
-  //     data: { authorizationCode },
-  //     withCredentials: true,
-  //   }).then((res) => {
-  //     console.log("여기", res.data);
-  //     console.log("여기", res.data.data.email);
-  //     console.log("여기", res.data.data.name);
-  //   });
-  // };
+  const getGoogleToken = async (authorizationCode) => {
+    await axios({
+      url: `${process.env.REACT_APP_API_URL}/oauth/google`,
+      method: "post",
+      data: { authorizationCode },
+      withCredentials: true,
+    }).then((res) => {
+      // console.log("이건 데이터", res.data);
+      // console.log("이건 이메일", res.data.data.email);
+      // console.log("이건 이름", res.data.data.name);
+      if (res.status === 200) {
+        const user = res.data;
+        const userInfo = {
+          id: user.data.sub,
+          nickname: user.data.name,
+          email: user.data.email,
+        };
+        // setGoogleToken(res.data.token);
+        setUserInfo(userInfo);
+        localStorage.setItem("auth", 3);
+        setAuth(localStorage.getItem("auth"));
+        setIsLogin(true);
+        navigate("/");
+        console.log("유저인포", userInfo);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Apang 로그인",
+          text: message.loginFail,
+        });
+      }
+    });
+  };
 
-  // useEffect(() => {
-  //   const url = new URL(window.location.href);
-  //   console.log(`url ${url}`);
-  //   const authorizationCode = url.searchParams.get("code");
-  //   console.log(`authorizationCode ${authorizationCode}`);
-  //   if (authorizationCode) {
-  //     getGoogleToken(authorizationCode);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    // console.log(`url ${url}`);
+    const authorizationCode = url.searchParams.get("code");
+    // console.log(`authorizationCode ${authorizationCode}`);
+    if (authorizationCode) {
+      getGoogleToken(authorizationCode);
+    }
+  }, []);
 
   return (
     <>
@@ -183,6 +207,7 @@ function App() {
             />
           }
         />
+
         <Route
           path="/qna"
           element={

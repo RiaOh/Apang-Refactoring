@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { valid } from "../../modules/validator";
 import { message } from "../../modules/message";
+import kakao from "../../images/kakao.png";
+import google from "../../images/google.png";
+import { KAKAO_AUTH_URL } from "../OAuthKakao";
+import { GOOGLE_AUTHORIZE_URL } from "../OAuthGoogle";
 
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -25,7 +28,7 @@ export const ModalBox = styled.div`
   width: 100%;
   height: 100%;
   max-width: 23rem;
-  height: 37rem;
+  height: 33rem;
   border-radius: 1rem;
   background-color: #fbf3ed;
   overflow: hidden;
@@ -87,6 +90,7 @@ export const LoginBody = styled.div`
     border-radius: 10px;
     &:focus {
       outline: 0.1rem solid #63b5f6;
+      border-radius: 10px;
     }
     ::-webkit-outer-spin-button,
     ::-webkit-inner-spin-button {
@@ -99,13 +103,36 @@ export const LoginBody = styled.div`
 export const LoginFooter = styled.div`
   padding: 0.1rem 1rem 1rem 1rem;
   background-color: #fbf3ed;
+  .line {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: #b5afaf;
+    font-size: 0.5rem;
+    margin: 0.5rem;
+  }
+  .line::before,
+  .line::after {
+    content: "";
+    flex-grow: 1;
+    background: #dee2e6;
+    height: 0.1rem;
+    margin: 0 2rem;
+  }
+`;
+
+export const LoginFoot = styled.div`
+  padding: 0.1rem 1rem 1rem 3.8rem;
+  background-color: #fbf3ed;
 `;
 
 export const SocialLoginHeader = styled.div`
   background-color: #fbf3ed;
 `;
 
-export const SocialLogin = styled(Link)``;
+export const SocialLogin = styled.a`
+  padding: 0.1rem 1rem 1rem 2rem;
+`;
 
 export const Button = styled.button`
   margin: 0rem 2rem;
@@ -133,7 +160,8 @@ export const BtnMenu = styled.button`
 `;
 
 export const Msg = styled.span`
-  margin: 0 3.5rem;
+  display: block;
+  margin: 0 3.3rem;
   color: red;
   margin-top: 0;
   font-size: 0.8rem;
@@ -397,42 +425,57 @@ function SignUpModal({ open, close, handleResponseSuccess }) {
           <BtnMenu>의사</BtnMenu>
         </SelectHeader>
         {isSelect === "public" ? (
-          <LoginBody>
-            <div>
-              <input
-                id="email"
-                type="email"
-                placeholder="이메일"
-                onChange={publicChange("email")}
-                value={publicInfo.email}
-              />
-              <Msg>{errorMessage.email}</Msg>
-            </div>
+          <>
+            <LoginBody>
+              <div>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="이메일"
+                  onChange={publicChange("email")}
+                  value={publicInfo.email}
+                />
+                <Msg>{errorMessage.email}</Msg>
+              </div>
 
-            <div>
-              <input
-                id="password"
-                type="password"
-                placeholder="비밀번호"
-                onChange={publicChange("password")}
-                value={publicInfo.password}
-              />
-              <Msg>{errorMessage.password}</Msg>
-            </div>
+              <div>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="비밀번호"
+                  onChange={publicChange("password")}
+                  value={publicInfo.password}
+                />
+                <Msg>{errorMessage.password}</Msg>
+              </div>
 
-            <div>
-              <input
-                id="nickname"
-                type="text"
-                placeholder="닉네임"
-                onChange={publicChange("nickname")}
-                value={publicInfo.nickname}
-              />
-              <Msg>{errorMessage.nickname}</Msg>
-              <Msg>{errorMessage.confirm}</Msg>
-            </div>
-            <Button onClick={publicSignUp}>가입하기</Button>
-          </LoginBody>
+              <div>
+                <input
+                  id="nickname"
+                  type="text"
+                  placeholder="닉네임"
+                  onChange={publicChange("nickname")}
+                  value={publicInfo.nickname}
+                />
+                <Msg>{errorMessage.nickname}</Msg>
+                <Msg>{errorMessage.confirm}</Msg>
+              </div>
+              <Button onClick={publicSignUp}>가입하기</Button>
+            </LoginBody>
+            <>
+              <LoginFooter>
+                <div className="line">소셜계정으로 간편하게 로그인하세요</div>
+                <LoginFoot>
+                  <SocialLogin href={KAKAO_AUTH_URL} onClick={close}>
+                    <img src={kakao} alt="kakaologin" width="48rem"></img>
+                  </SocialLogin>
+                  <SocialLogin href={GOOGLE_AUTHORIZE_URL} onClick={close}>
+                    <img src={google} alt="googlelogin" width="48rem"></img>
+                  </SocialLogin>
+                </LoginFoot>
+              </LoginFooter>
+            </>
+          </>
         ) : (
           <LoginBody>
             <div>
@@ -482,14 +525,12 @@ function SignUpModal({ open, close, handleResponseSuccess }) {
                 placeholder="병원 이름"
                 onChange={doctorChange("hospital")}
               />
-              <Msg>{errorMessage.hospital}</Msg>
               <Msg>{errorMessage.confirm}</Msg>
             </div>
 
             <Button onClick={doctorSignUp}>신청하기</Button>
           </LoginBody>
         )}
-        <LoginFooter></LoginFooter>
       </ModalBox>
     </ModalBackGround>
   ) : null;
