@@ -4,14 +4,6 @@ const formUrlEncoded = (x) =>
 const KAKAO_ADMIN = "a663f5fefe8ce0a5105b25bb1191bcf5";
 
 module.exports = (req, res) => {
-  //   console.log(req.body.accessToken);
-  //   const token = req.body.accessToken;
-  //   axios.post("https://kapi.kakao.com/v1/user/logout", {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       "content-type": "application/x-www-form-urlencoded",
-  //     },
-  //   });
   console.log(req.body.userid);
   const userid = req.body.userid;
   axios
