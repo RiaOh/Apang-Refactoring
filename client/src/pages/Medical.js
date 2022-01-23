@@ -318,9 +318,7 @@ const Medical = ({ medical, medicalInfoHandling, userInfo, isLogin, auth }) => {
     <MedicalContainer>
       <MedicalTitle>병원 목록 & 상세페이지</MedicalTitle>
       <Selector onChange={handler}>
-        <Options disabled selected>
-          진료과목을 선택해 주세요.
-        </Options>
+        <Options disabled>진료과목을 선택해 주세요.</Options>
         {category.map((el, i) => {
           if (el !== "전체") {
             return (

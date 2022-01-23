@@ -98,27 +98,31 @@ function AuthPage() {
         <Auth>관리자</Auth>
         <Tools>
           <Tools2>
-            <TitleHeader>Number</TitleHeader>
-            <TitleHeader>Email</TitleHeader>
-            <TitleHeader>이름</TitleHeader>
-            <TitleHeader>병원명</TitleHeader>
-            <TitleHeader>의사면허번호</TitleHeader>
-            <TitleHeader>AGREE</TitleHeader>
-            <TitleHeader>승낙여부</TitleHeader>
+            <tr>
+              <TitleHeader>Number</TitleHeader>
+              <TitleHeader>Email</TitleHeader>
+              <TitleHeader>이름</TitleHeader>
+              <TitleHeader>병원명</TitleHeader>
+              <TitleHeader>의사면허번호</TitleHeader>
+              <TitleHeader>AGREE</TitleHeader>
+              <TitleHeader>승낙여부</TitleHeader>
+            </tr>
           </Tools2>
           {doctors.map((doctors) => (
             <Tbody key={doctors.id}>
-              <TitleHeader>{doctors.id}</TitleHeader>
-              <TitleHeader>{doctors.email}</TitleHeader>
-              <TitleHeader>{doctors.name}</TitleHeader>
-              <TitleHeader>{doctors.hospital}</TitleHeader>
-              <TitleHeader>{doctors.license}</TitleHeader>
-              <TitleHeader>{doctors.agree}</TitleHeader>
-              <TitleHeader>
-                <AgreeBtn onClick={(e) => agreeHandler(doctors, e)}>
-                  승낙
-                </AgreeBtn>
-              </TitleHeader>
+              <tr>
+                <TitleHeader>{doctors.id}</TitleHeader>
+                <TitleHeader>{doctors.email}</TitleHeader>
+                <TitleHeader>{doctors.name}</TitleHeader>
+                <TitleHeader>{doctors.hospital}</TitleHeader>
+                <TitleHeader>{doctors.license}</TitleHeader>
+                <TitleHeader>{doctors.agree}</TitleHeader>
+                <TitleHeader>
+                  <AgreeBtn onClick={(e) => agreeHandler(doctors, e)}>
+                    승낙
+                  </AgreeBtn>
+                </TitleHeader>
+              </tr>
             </Tbody>
           ))}
         </Tools>

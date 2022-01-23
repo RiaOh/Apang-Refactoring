@@ -326,7 +326,6 @@ const Clear = styled.div`
 const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
   const navigate = useNavigate();
   const [reviews, setReviews] = useState([]); //해당 병원 review 가져오기
-  const navigate = useNavigate();
   useEffect(() => {
     axios
       .post(
@@ -676,7 +675,7 @@ const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
               placeholder="병원명"
               type="text"
               disabled
-              value={medicalInfo.place_name}
+              defaultValue={medicalInfo.place_name}
             />
 
             <ReviewTextarea
@@ -724,10 +723,10 @@ const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
 
                 <ReviewNik
                   disabled
-                  value={medicalInfo.place_name}
+                  defaultValue={medicalInfo.place_name}
                   style={{ background: "#e3f2fd", border: "none" }}
                 />
-                <ReviewTextarea value={review.content} />
+                <ReviewTextarea value={review.content} readOnly />
 
                 {auth === 0 ? (
                   <Button style={{ padding: "3px", fontSize: "15px" }}>
