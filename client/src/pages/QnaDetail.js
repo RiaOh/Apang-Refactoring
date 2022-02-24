@@ -40,7 +40,7 @@ function QnaDetail({ isLogin, auth, userInfo }) {
         </ImgWrap>
       </QnaContainer>
 
-      <QnaUserPost />
+      <QnaUserPost isLogin={isLogin} />
 
       <QnaPost isLogin={isLogin} userInfo={userInfo} auth={auth} />
     </>

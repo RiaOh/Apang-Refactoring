@@ -5,7 +5,7 @@ const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 module.exports = async (req, res) => {
   // console.log("구글인포", req.body);
-  const decoded = await axios
+  await axios
     .post("https://oauth2.googleapis.com/token", {
       client_id: clientID,
       client_secret: clientSecret,

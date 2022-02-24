@@ -78,10 +78,17 @@ function App() {
             setUserInfo(userInfo); //state변경될때마다 카카오로 토큰요청이 2번 간다. <Kakao> https://kauth.kakao.com/auth/token
             setIsLogin(true);
             navigate("/");
+            Swal.fire({
+              icon: "success",
+              title: "카카오로 간편로그인",
+              text: message.loginSuccess,
+              showConfirmButton: false,
+              timer: 1000,
+            });
           } else {
             Swal.fire({
               icon: "error",
-              title: "Apang 로그인",
+              title: "카카오로 간편로그인",
               text: message.loginFail,
             });
           }
@@ -122,8 +129,10 @@ function App() {
         localStorage.removeItem("accessToken");
         Swal.fire({
           icon: "success",
-          title: "또 만나요",
+          title: "다음에 또 만나요",
           text: "로그아웃 되었습니다",
+          showConfirmButton: false,
+          timer: 1000,
         });
         navigate("/");
       });
@@ -150,13 +159,21 @@ function App() {
         setUserInfo(userInfo);
         localStorage.setItem("auth", 3);
         setAuth(localStorage.getItem("auth"));
+        console.log("어스", localStorage.auth);
         setIsLogin(true);
         navigate("/");
         console.log("유저인포", userInfo);
+        Swal.fire({
+          icon: "success",
+          title: "구글로 간편로그인",
+          text: message.loginSuccess,
+          showConfirmButton: false,
+          timer: 1000,
+        });
       } else {
         Swal.fire({
           icon: "error",
-          title: "Apang 로그인",
+          title: "구글로 간편로그인",
           text: message.loginFail,
         });
       }

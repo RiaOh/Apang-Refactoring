@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
             defaults: {
               password: userInfo.password,
               nickname: userInfo.nickname,
-              profile_img: "publicprofile.jpeg",
+              profile_img: "user.png",
               auth: 2,
             },
           })

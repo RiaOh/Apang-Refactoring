@@ -152,6 +152,16 @@ function Nav({ isLogin, handleResponseSuccess, handleLogout, auth }) {
     setSignOpen(!signOpen);
   };
 
+  const switchSignToLogin = () => {
+    setSignOpen(!signOpen);
+    setLoginOpen(!loginOpen);
+  };
+
+  const switchLoginToSign = () => {
+    setLoginOpen(!loginOpen);
+    setSignOpen(!signOpen);
+  };
+
   return (
     <NavContainer>
       <LogoWrap to="/">
@@ -239,10 +249,12 @@ function Nav({ isLogin, handleResponseSuccess, handleLogout, auth }) {
         handleResponseSuccess={handleResponseSuccess}
         open={loginOpen}
         close={openSigninModal}
+        swi={switchLoginToSign}
       />
       <SignUpModal
         open={signOpen}
         close={openSignupModal}
+        swi={switchSignToLogin}
         handleResponseSuccess={handleResponseSuccess}
       />
 

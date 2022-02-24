@@ -86,7 +86,7 @@ module.exports = async (req, res) => {
             },
           });
           console.log("user : ", user);
-          if (user.dataValues.profile_img !== "doctorprofile.png") {
+          if (user.dataValues.profile_img !== "doctor.png") {
             const img = user.dataValues.profile_img;
             // console.log(img);
             fs.unlink(

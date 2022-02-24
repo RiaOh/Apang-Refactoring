@@ -226,13 +226,13 @@ const MyreviewContainer = styled.div`
 `;
 
 const MyreviewLine = styled.div`
-  border: 1px solid #b5afaf;
+  border: 1px solid #63b5f6;
   border-radius: 10px;
   width: 21%;
   height: 50%;
   margin: 1vw;
   float: left;
-  background-color: #f9f9f9;
+  background-color: #e3f2fd;
   @media ${({ theme }) => theme.device.mobile} {
     width: 100%;
     float: none;
@@ -246,9 +246,9 @@ const MyreviewTrash = styled.button`
   margin: 0.5vw;
   cursor: pointer;
   border: none;
-  background-color: #f9f9f9;
+  background-color: #e3f2fd;
   &:hover {
-    background-color: #c7c7c7;
+    background-color: #fff;
   }
   @media ${({ theme }) => theme.device.mobile} {
     margin: 3vw;
@@ -282,6 +282,7 @@ const UserTitle = styled.div`
 
 const TitleHeader = styled.h4`
   margin: 1vw 0 0.5vw 0.5vw;
+  color: #007ac1;
   @media ${({ theme }) => theme.device.mobile} {
     margin: 2vw 1.5vw 1.5vw 2vw;
   }
@@ -419,6 +420,8 @@ function DocMypage(props) {
             icon: "success",
             title: "Apang 정보수정",
             text: message.changeSuccess,
+            showConfirmButton: false,
+            timer: 1000,
           });
         });
     }
@@ -440,12 +443,16 @@ function DocMypage(props) {
             icon: "success",
             title: "Apang 정보수정",
             text: message.errorPassword,
+            showConfirmButton: false,
+            timer: 1000,
           });
         } else {
           Swal.fire({
             icon: "success",
             title: "Apang 정보수정",
             text: message.changeSuccess,
+            showConfirmButton: false,
+            timer: 1000,
           });
           props.handleLogout();
         }
@@ -455,14 +462,14 @@ function DocMypage(props) {
   // 회원탈퇴
   const deleteHandler = () => {
     Swal.fire({
-      icon: "warning",
-      title: "회원탈퇴",
-      text: "정말로 탈퇴하시겠습니까?",
+      icon: "info",
+      title: "모든 정보가 삭제됩니다",
+      text: "정말로 탈퇴하실건가요?",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "네, 탈퇴하겠습니다.",
-      cancelButtonText: "아니요.",
+      confirmButtonColor: "#63b5f6",
+      cancelButtonColor: "#dd3333",
+      confirmButtonText: "네, 탈퇴하겠습니다",
+      cancelButtonText: "다시 생각해볼게요",
     }).then((result) => {
       if (result.isConfirmed) {
         axios
@@ -490,6 +497,8 @@ function DocMypage(props) {
         Swal.fire({
           icon: "success",
           text: "댓글이 성공적으로 삭제되었습니다",
+          showConfirmButton: false,
+          timer: 1000,
         });
       })
       .then(() => {
@@ -557,6 +566,7 @@ function DocMypage(props) {
               <DocInput
                 type="text"
                 placeholder="이름"
+                maxLength="5"
                 defaultValue={props.userInfo.name}
                 onChange={handleInputChange("name")}
               />

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Container } from "../styles";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export const QnaUserContainer = styled(Container)`
   background-color: ${({ theme }) => theme.color.white};
@@ -73,6 +74,7 @@ export const ContentText = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   width: 26rem;
+
   @media ${({ theme }) => theme.device.ipad} {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -86,7 +88,7 @@ export const ContentText = styled.div`
   }
 `;
 
-function QnaUserPost() {
+function QnaUserPost({ isLogin }) {
   let url = document.location.href;
   let qna_id = url.split("/");
   qna_id = qna_id[qna_id.length - 1];
@@ -95,6 +97,14 @@ function QnaUserPost() {
   const [qnaDetail, setqnaDetail] = useState("");
 
   useEffect(() => {
+    if (!isLogin) {
+      Swal.fire({
+        icon: "info",
+        text: "의료법상 가입한 회원들만 내용을 볼 수 있어요",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    }
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/qna/info`,
@@ -109,9 +119,7 @@ function QnaUserPost() {
       });
   }, []);
 
-  //관리자가 QnA삭제
-
-  console.log(qnaDetail);
+  // console.log(qnaDetail);
 
   return (
     <>

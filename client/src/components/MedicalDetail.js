@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Sample from "../images/sample.gif";
 import Receipt from "../images/receipt.jpg";
@@ -313,6 +313,23 @@ const ReviewTextarea = styled.textarea`
   resize: none;
   border-radius: 5px;
   padding: 10px;
+
+  @media ${({ theme }) => theme.device.mobile} {
+    width: 95%;
+    height: 5rem;
+  }
+`;
+
+const ReviewTextareaOut = styled.textarea`
+  width: 70%;
+  height: 5rem;
+  border: 1px solid #63b5f6;
+  resize: none;
+  border-radius: 5px;
+  padding: 10px;
+  filter: blur(0.3rem);
+  -webkit-filter: blur(0.3rem);
+
   @media ${({ theme }) => theme.device.mobile} {
     width: 95%;
     height: 5rem;
@@ -375,9 +392,11 @@ const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
 
   const handleClick = () => {
     Swal.fire({
-      icon: "error",
+      icon: "info",
       title: "로그인이 필요해요",
       text: "회원이 아니시면 회원가입 해주세요",
+      showConfirmButton: false,
+      timer: 1000,
     });
     setImgInfo({
       file: [],
@@ -390,9 +409,11 @@ const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
 
   const handleDocClick = () => {
     Swal.fire({
-      icon: "error",
+      icon: "info",
       title: "의사선생님 또는 관리자인가요?",
       text: "일반 이용자만 리뷰를 작성하실 수 있어요",
+      showConfirmButton: false,
+      timer: 1000,
     });
     setImgInfo({
       file: [],
@@ -418,13 +439,17 @@ const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
       .then((res) => {
         if (res.data.status === 400) {
           Swal.fire({
-            icon: "error",
+            icon: "info",
             text: "영수증 사진, 리뷰내용 모두 올려주세요!",
+            showConfirmButton: false,
+            timer: 1000,
           });
         } else {
           Swal.fire({
             icon: "success",
             text: "리뷰가 성공적으로 등록되었습니다",
+            showConfirmButton: false,
+            timer: 1000,
           });
         }
       })
@@ -467,6 +492,8 @@ const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
         Swal.fire({
           icon: "success",
           text: "병원사진이 성공적으로 등록되었습니다",
+          showConfirmButton: false,
+          timer: 1000,
         });
       });
     setFileImage({
@@ -480,9 +507,11 @@ const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
 
   const noPhotoSave = () => {
     Swal.fire({
-      icon: "error",
+      icon: "info",
       title: "병원 관계자인가요?",
       text: "병원 관계자만 사진을 저장하실 수 있어요",
+      showConfirmButton: false,
+      timer: 1000,
     });
     setFileImage({
       file: [],
@@ -519,6 +548,8 @@ const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
         Swal.fire({
           icon: "success",
           text: "리뷰가 성공적으로 삭제되었습니다",
+          showConfirmButton: false,
+          timer: 1000,
         });
       })
       .then(() => {
@@ -726,7 +757,11 @@ const MedicalDetail = ({ medicalInfo, userInfo, isLogin, auth }) => {
                   defaultValue={medicalInfo.place_name}
                   style={{ background: "#e3f2fd", border: "none" }}
                 />
-                <ReviewTextarea value={review.content} readOnly />
+                {isLogin ? (
+                  <ReviewTextarea value={review.content} />
+                ) : (
+                  <ReviewTextareaOut value={review.content} />
+                )}
 
                 {auth === 0 ? (
                   <Button style={{ padding: "3px", fontSize: "15px" }}>

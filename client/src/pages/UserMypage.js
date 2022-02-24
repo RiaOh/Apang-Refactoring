@@ -213,13 +213,13 @@ const MyreviewContainer = styled.div`
 `;
 
 const MyreviewLine = styled.div`
-  border: 1px solid #b5afaf;
+  border: 1px solid #63b5f6;
   border-radius: 10px;
   width: 20%;
   height: 50%;
   margin: 1vw;
   float: left;
-  background-color: #f9f9f9;
+  background-color: #e3f2fd;
   @media ${({ theme }) => theme.device.mobile} {
     width: 100%;
     float: none;
@@ -233,9 +233,9 @@ const MyreviewTrash = styled.button`
   margin: 0.5vw;
   cursor: pointer;
   border: none;
-  background-color: #f9f9f9;
+  background-color: #e3f2fd;
   &:hover {
-    background-color: #c7c7c7;
+    background-color: #fff;
   }
   @media ${({ theme }) => theme.device.mobile} {
     margin: 3vw;
@@ -257,7 +257,7 @@ const MyreviewContent = styled.div`
 
 const TitleHeader = styled.h4`
   margin: 1vw 0 0.5vw 0.5vw;
-
+  color: #007ac1;
   @media ${({ theme }) => theme.device.mobile} {
     margin: 2vw 1.5vw 1.5vw 2vw;
   }
@@ -285,7 +285,6 @@ const Prosecutor = styled.div`
 
 // 유효성 끝
 
-// 상현 수정
 function UserMypage(props) {
   const navigate = useNavigate();
   const [myQnaInfo, setmyQnaInfo] = useState([]);
@@ -452,14 +451,14 @@ function UserMypage(props) {
   // 회원탈퇴
   const deleteHandler = () => {
     Swal.fire({
-      icon: "warning",
-      title: "회원탈퇴",
-      text: "정말로 탈퇴하시겠습니까?",
+      icon: "info",
+      title: "모든 정보가 삭제될 수 있습니다",
+      text: "정말로 탈퇴하실건가요?",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "네, 탈퇴하겠습니다.",
-      cancelButtonText: "아니요.",
+      confirmButtonColor: "#63b5f6",
+      cancelButtonColor: "#dd3333",
+      confirmButtonText: "네, 탈퇴하겠습니다",
+      cancelButtonText: "다시 생각해볼게요",
     }).then((result) => {
       if (result.isConfirmed) {
         axios
@@ -564,7 +563,7 @@ function UserMypage(props) {
                           height: "90px",
                           objectFit: "scale-down",
                         }}
-                        src={require(`../../public/uploads/${props.userInfo.profile_img}`)}
+                        src={require(`../../../server/images/uploads/${props.userInfo.profile_img}`)}
                         alt="publicimage"
                       />
                     )}
@@ -585,6 +584,7 @@ function UserMypage(props) {
                   type="text"
                   defaultValue={props.userInfo.nickname}
                   onChange={handleInputChange("nickname")}
+                  maxLength="18"
                 />
               </UserContainerLine>
               <Edting onClick={submit}>저장하기</Edting>

@@ -3,6 +3,8 @@ import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { category } from "../../modules/category";
+import Swal from "sweetalert2";
+import { message } from "../../modules/message";
 
 export const ModalBackGround = styled.div`
   position: fixed;
@@ -59,12 +61,20 @@ export const QnaBody = styled.div`
   padding: 1rem;
   color: black;
   background-color: #fbf3ed;
+  border-radius: 10px;
+  &:focus {
+    outline: 0.1rem solid #63b5f6;
+  }
 
   & > div {
     padding: 0.3rem 0.7rem 0.7rem 0.7rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
+    &:focus {
+      outline: 0.1rem solid #63b5f6;
+    }
   }
 
   & > div > input {
@@ -247,6 +257,14 @@ function QnaModal({ open, close, tagHandler }) {
   };
 
   const handleUpload = () => {
+    const { category, title, content } = qnaInfo;
+    if (category === "" || title === "" || content === "") {
+      Swal.fire({
+        icon: "info",
+        text: message.emptyMessage,
+      });
+      return;
+    }
     axios
       .post(
         process.env.REACT_APP_API_URL + "/qna/upload",
@@ -290,13 +308,19 @@ function QnaModal({ open, close, tagHandler }) {
             });
         });
       });
+    Swal.fire({
+      icon: "success",
+      text: "담당 선생님의 답변을 기다려주세요",
+      showConfirmButton: false,
+      timer: 1000,
+    });
   };
 
   return open ? (
     <ModalBackGround onClick={close}>
       <ModalBox onClick={(e) => e.stopPropagation()}>
         <QnaHeader>
-          질문하기
+          {/* 질문하기 */}
           <button onClick={close}> &times; </button>
         </QnaHeader>
         <QnaBody>
@@ -321,7 +345,7 @@ function QnaModal({ open, close, tagHandler }) {
           <TagsInput>
             <input
               type="text"
-              placeholder="태그를 입력해주세요"
+              placeholder="Enter로 해시태그를 입력할 수 있어요"
               onKeyUp={(e) => (e.key === "Enter" ? addTags(e) : null)}
             />
             <ul id="tags">
@@ -345,6 +369,7 @@ function QnaModal({ open, close, tagHandler }) {
                 className="textarea"
                 type="textarea"
                 placeholder="내용을 입력해주세요"
+                maxLength="177"
                 onChange={qnaChange("content")}
               />
             </TextArea>

@@ -4,6 +4,7 @@ import { Container } from "../styles";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+import Doctor_img from "../images/doctor.png";
 
 export const QnaDocContainer = styled(Container)`
   background-color: ${({ theme }) => theme.color.white};
@@ -137,22 +138,21 @@ export const ContentWrap = styled.div`
   }
 `;
 
-export const Profile = styled.div`
-  display: flex;
-  font-size: 0.8rem;
-  margin-bottom: 0.5rem;
-  float: right;
-  .Id {
-    margin-left: 0.5rem;
-  }
-`;
-
 export const ProfileDoc = styled.div`
   display: flex;
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
-  .Id {
-    margin-left: 0.5rem;
+  & input {
+    outline: none;
+    border: none;
+    width: 7rem;
+    height: 1.3rem;
+    font-size: 0.8rem;
+    padding-left: 0.5rem;
+    :disabled {
+      background: none;
+      color: black;
+    }
   }
   .commentFront {
     cursor: pointer;
@@ -224,6 +224,7 @@ export const ContentDocText = styled.div`
   text-overflow: ellipsis;
   overflow: hidden;
   width: 26rem;
+
   @media ${({ theme }) => theme.device.ipad} {
     text-overflow: ellipsis;
     overflow: hidden;
@@ -264,7 +265,6 @@ export const TagsInput = styled.div`
 
 export const Ren = styled.div`
   > textarea {
-    /* whitespace: pre-line; */
     resize: none;
     outline: none;
     border: hidden;
@@ -290,13 +290,39 @@ export const Ren = styled.div`
 
 export const Shu = styled.div`
   > textarea {
-    /* whitespace: pre-line; */
     resize: none;
     outline: none;
     border: hidden;
     width: 100%;
     height: 5rem;
     font-size: 0.8rem;
+    @media ${({ theme }) => theme.device.mobile} {
+      margin-: auto;
+    }
+    :enabled {
+      border: 0.1rem solid #dee2e6;
+      border-radius: 10px;
+      &:focus {
+        outline: 0.1rem solid #63b5f6;
+      }
+    }
+    :disabled {
+      background: none;
+      color: black;
+    }
+  }
+`;
+
+export const ShuOut = styled.div`
+  > textarea {
+    resize: none;
+    outline: none;
+    border: hidden;
+    width: 100%;
+    height: 5rem;
+    font-size: 0.8rem;
+    filter: blur(0.3rem);
+    -webkit-filter: blur(0.3rem);
     @media ${({ theme }) => theme.device.mobile} {
       margin-: auto;
     }
@@ -343,15 +369,24 @@ function QnaPost({ isLogin, userInfo, auth }) {
 
   const handleKakuninClick = () => {
     Swal.fire({
-      icon: "error",
+      icon: "info",
       title: "의사 선생님이신가요?",
       text: "선생님만 답변하실 수 있어요",
+      showConfirmButton: false,
+      timer: 1000,
     });
   };
 
   const handleClick = (e) => {
-    e.preventDefault();
-    if (auth === 1) {
+    if (!inputRef.current.value) {
+      Swal.fire({
+        icon: "info",
+        text: "답변을 작성해주세요",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+      return;
+    } else if (auth === 1) {
       // console.log("content몰까?", contentInfo);
       let payload = { content: inputRef.current.value, qna_id: qna_id };
       axios
@@ -362,33 +397,55 @@ function QnaPost({ isLogin, userInfo, auth }) {
           navigate("/qna");
           navigate(`/qna/detail/${qna_id}`);
         });
+      Swal.fire({
+        icon: "success",
+        text: "댓글이 성공적으로 등록되었습니다",
+        showConfirmButton: false,
+        timer: 1000,
+      });
     } else {
       Swal.fire({
-        icon: "error",
+        icon: "info",
         title: "의사 선생님이신가요?",
         text: "선생님만 답변하실 수 있어요",
+        showConfirmButton: false,
+        timer: 1000,
       });
     }
   };
 
   const handleDelete = (commentid) => {
-    axios
-      .delete(`${process.env.REACT_APP_API_URL}/comments`, {
-        data: {
-          comment_id: commentid,
-        },
-        withCredentials: true,
-      })
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          text: "댓글이 성공적으로 삭제되었습니다",
-        });
-      })
-      .then(() => {
-        navigate("/qna");
-        navigate(`/qna/detail/${qna_id}`);
-      });
+    Swal.fire({
+      icon: "info",
+      text: "삭제한 댓글은 복구 될 수 없어요",
+      showCancelButton: true,
+      confirmButtonColor: "#63b5f6",
+      cancelButtonColor: "#dd3333",
+      confirmButtonText: "삭제",
+      cancelButtonText: "취소",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`${process.env.REACT_APP_API_URL}/comments`, {
+            data: {
+              comment_id: commentid,
+            },
+            withCredentials: true,
+          })
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              text: "댓글이 성공적으로 삭제되었습니다",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+          })
+          .then(() => {
+            navigate("/qna");
+            navigate(`/qna/detail/${qna_id}`);
+          });
+      }
+    });
   };
 
   useEffect(() => {
@@ -416,6 +473,8 @@ function QnaPost({ isLogin, userInfo, auth }) {
         Swal.fire({
           icon: "success",
           text: "댓글이 성공적으로 수정되었습니다",
+          showConfirmButton: false,
+          timer: 1000,
         });
       })
       .then(() => {
@@ -435,6 +494,7 @@ function QnaPost({ isLogin, userInfo, auth }) {
     <>
       {/* 답변 시작 끝 */}
       {commentList.map((comment, index) => {
+        // console.log(comment);
         return (
           <QnaDocContainer key={index}>
             <QnaDocBox>
@@ -451,41 +511,43 @@ function QnaPost({ isLogin, userInfo, auth }) {
                         width="20rem"
                         alt="doctor"
                       />
-
-                      <div className="Id">
-                        {`${comment.doctor.name} 선생님`}
-                        {comment.id === commentId ? (
-                          <>
-                            <span
-                              value="등록"
-                              className="commentFront"
-                              onClick={() =>
-                                onClickSubmitButton(
-                                  comment.id,
-                                  comment.doctors_id
-                                )
-                              }
-                            >
-                              등록
-                            </span>
-                          </>
-                        ) : (
+                      <input
+                        disabled
+                        type="text"
+                        defaultValue={`${comment.doctor.name} 선생님`}
+                      ></input>
+                      {comment.id === commentId ? (
+                        <>
                           <span
-                            value="수정"
+                            value="등록"
                             className="commentFront"
-                            onClick={() => onClickEditButton(comment.id)}
+                            onClick={() =>
+                              onClickSubmitButton(
+                                comment.id,
+                                comment.doctors_id
+                              )
+                            }
                           >
-                            수정
+                            등록
                           </span>
-                        )}
-                        <span className="commentMiddle">|</span>
+                        </>
+                      ) : (
                         <span
-                          className="commentBack"
-                          onClick={() => handleDelete(comment.id)}
+                          value="수정"
+                          className="commentFront"
+                          onClick={() => onClickEditButton(comment.id)}
                         >
-                          삭제
+                          수정
                         </span>
-                      </div>
+                      )}
+                      <span className="commentMiddle">|</span>
+                      <span
+                        className="commentBack"
+                        onClick={() => handleDelete(comment.id)}
+                      >
+                        삭제
+                      </span>
+                      {/* </div> */}
                     </ProfileDoc>
                     {comment.id === commentId ? (
                       <Ren>
@@ -537,22 +599,42 @@ function QnaPost({ isLogin, userInfo, auth }) {
                   <>
                     <ProfileDoc>
                       <img
-                        src={require(`../../public/uploads/${comment.doctor.profile_img}`)}
+                        src={
+                          comment.doctor
+                            ? require(`../../public/uploads/${comment.doctor.profile_img}`)
+                            : Doctor_img
+                        }
                         width="20rem"
                         alt="doctor"
                       />
-                      <div className="Id">
-                        {`${comment.doctor.name} 선생님`}
-                        <span className="commentNothing"></span>
-                      </div>
-                    </ProfileDoc>
-                    <Shu>
-                      <textarea
+                      <input
                         disabled
                         type="text"
-                        defaultValue={comment.content}
-                      />
-                    </Shu>
+                        defaultValue={
+                          comment.doctor
+                            ? `${comment.doctor.name} 선생님`
+                            : "의사 선생님"
+                        }
+                      ></input>
+                      <span className="commentNothing"></span>
+                    </ProfileDoc>
+                    {!isLogin ? (
+                      <ShuOut>
+                        <textarea
+                          disabled
+                          type="text"
+                          defaultValue={comment.content}
+                        />
+                      </ShuOut>
+                    ) : (
+                      <Shu>
+                        <textarea
+                          disabled
+                          type="text"
+                          defaultValue={comment.content}
+                        />
+                      </Shu>
+                    )}
                   </>
                 )}
               </ContentWrap>
@@ -569,6 +651,7 @@ function QnaPost({ isLogin, userInfo, auth }) {
               className="textarea"
               type="textarea"
               ref={inputRef}
+              maxLength="177"
               placeholder={"선생님의 답변을 기다리고 있어요"}
             />
           </TagsInput>

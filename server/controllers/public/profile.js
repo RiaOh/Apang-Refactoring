@@ -5,7 +5,7 @@ const path = require("path");
 const fs = require("fs");
 
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, "../../../client/public/", "uploads"),
+  destination: path.join(__dirname, "../../../server/images/", "uploads"),
   // destination: function (req, file, cb) {
   //   cb(null, "../../../client/public/uploads");
   // },
@@ -45,11 +45,11 @@ module.exports = async (req, res) => {
             },
           });
           console.log("user : ", user);
-          if (user.dataValues.profile_img !== "publicprofile.jpeg") {
+          if (user.dataValues.profile_img !== "user.png") {
             const img = user.dataValues.profile_img;
             // console.log("이거찍히나? : ", img);
             fs.unlink(
-              path.join(__dirname, "../../../client/public/uploads/", img),
+              path.join(__dirname, "../../../server/images/uploads/", img),
               (err) => {
                 if (err) {
                   console.log(err);

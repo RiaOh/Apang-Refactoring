@@ -4,12 +4,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { valid } from "../../modules/validator";
 import { message } from "../../modules/message";
-import kakao from "../../images/kakao.png";
-import google from "../../images/google.png";
-import { KAKAO_AUTH_URL } from "../OAuthKakao";
-import { GOOGLE_AUTHORIZE_URL } from "../OAuthGoogle";
-
-// axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 export const ModalBackGround = styled.div`
   position: fixed;
@@ -29,14 +23,14 @@ export const ModalBox = styled.div`
   height: 100%;
   max-width: 23rem;
   height: 33rem;
-  border-radius: 1rem;
+  border-radius: 10px;
   background-color: #fbf3ed;
   overflow: hidden;
 `;
 
 export const LoginHeader = styled.div`
   position: relative;
-  padding: 1.5rem 3.5rem 1rem 9rem;
+  padding: 0.7rem 3.5rem 1rem 9rem;
   background-color: #fbf3ed;
   font-weight: 500;
   color: black;
@@ -70,14 +64,23 @@ export const LoginBody = styled.div`
   padding: 1rem;
   color: black;
   background-color: #fbf3ed;
+  border-radius: 10px;
+  &:focus {
+    outline: 0.1rem solid #63b5f6;
+    border-radius: 10px;
+  }
 
   & > div {
     padding: 0 0.7rem 0.7rem 2rem;
     display: block;
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
+    &:focus {
+      outline: 0.1rem solid #63b5f6;
+      border-radius: 10px;
+    }
   }
-
   & > div > input {
     display: block;
     padding-top: 0.5rem;
@@ -101,7 +104,7 @@ export const LoginBody = styled.div`
 `;
 
 export const LoginFooter = styled.div`
-  padding: 0.1rem 1rem 1rem 1rem;
+  padding: 0rem 1rem 0rem 1rem;
   background-color: #fbf3ed;
   .line {
     display: flex;
@@ -110,19 +113,12 @@ export const LoginFooter = styled.div`
     color: #b5afaf;
     font-size: 0.5rem;
     margin: 0.5rem;
-  }
-  .line::before,
-  .line::after {
-    content: "";
-    flex-grow: 1;
-    background: #dee2e6;
-    height: 0.1rem;
-    margin: 0 2rem;
+    margin-left: 5.4rem;
   }
 `;
 
 export const LoginFoot = styled.div`
-  padding: 0.1rem 1rem 1rem 3.8rem;
+  padding: 0.1rem 0rem 0rem 3.8rem;
   background-color: #fbf3ed;
 `;
 
@@ -145,7 +141,6 @@ export const Button = styled.button`
   cursor: pointer;
   border-radius: 10px;
   &:hover {
-    background: #fff;
     background-color: #002171;
   }
 `;
@@ -167,7 +162,36 @@ export const Msg = styled.span`
   font-size: 0.8rem;
 `;
 
-function SignUpModal({ open, close, handleResponseSuccess }) {
+export const LoginFeet = styled.div`
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  color: #b5afaf;
+  font-size: 0.8rem;
+  margin: 0.5rem;
+  background-color: #fbf3ed;
+  margin-left: 2.3rem;
+  .span {
+    margin-left: 0.5rem;
+    color: #63b5f6;
+    cursor: pointer;
+  }
+`;
+
+export const LoginFeets = styled.div`
+  padding: 0.5rem 0rem 0.47rem 2rem;
+  flex-basis: 100%;
+  align-items: center;
+  color: black;
+  font-size: 0.8rem;
+  margin: 0.5rem;
+  background-color: white;
+  margin-left: 3.2rem;
+  margin-right: 3.2rem;
+  border-radius: 10px;
+`;
+
+function SignUpModal({ open, close, handleResponseSuccess, swi }) {
   const [isSelect, setIsSelect] = useState("public");
 
   // input값, 에러메세지 초기화
@@ -395,7 +419,6 @@ function SignUpModal({ open, close, handleResponseSuccess }) {
     >
       <ModalBox onClick={(e) => e.stopPropagation()}>
         <LoginHeader>
-          회원가입
           <button
             onClick={() => {
               setIsSelect("public");
@@ -426,6 +449,12 @@ function SignUpModal({ open, close, handleResponseSuccess }) {
         </SelectHeader>
         {isSelect === "public" ? (
           <>
+            <LoginFeets>
+              아팡 리뷰 평가 및 Q&A 상담 관련 정보는 <br />
+              개인 의료 정보 보호가 필요한 의료법 상 <br />
+              가입한 회원들만 조회할 수 있어요 <br />
+              로그인 후 궁금한 정보를 확인하세요
+            </LoginFeets>
             <LoginBody>
               <div>
                 <input
@@ -464,72 +493,79 @@ function SignUpModal({ open, close, handleResponseSuccess }) {
             </LoginBody>
             <>
               <LoginFooter>
-                <div className="line">소셜계정으로 간편하게 로그인하세요</div>
-                <LoginFoot>
-                  <SocialLogin href={KAKAO_AUTH_URL} onClick={close}>
-                    <img src={kakao} alt="kakaologin" width="48rem"></img>
-                  </SocialLogin>
-                  <SocialLogin href={GOOGLE_AUTHORIZE_URL} onClick={close}>
-                    <img src={google} alt="googlelogin" width="48rem"></img>
-                  </SocialLogin>
-                </LoginFoot>
+                <LoginFeet>
+                  <div>아팡 회원이신가요?</div>
+                  <span className="span" onClick={swi}>
+                    로그인
+                  </span>
+                </LoginFeet>
               </LoginFooter>
             </>
           </>
         ) : (
-          <LoginBody>
-            <div>
-              <input
-                id="email"
-                type="email"
-                placeholder="이메일"
-                onChange={doctorChange("email")}
-              />
-              <Msg>{errorMessage.email}</Msg>
-            </div>
+          <>
+            <LoginBody>
+              <div>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="이메일"
+                  onChange={doctorChange("email")}
+                />
+                <Msg>{errorMessage.email}</Msg>
+              </div>
 
-            <div>
-              <input
-                id="password"
-                type="password"
-                placeholder="비밀번호"
-                onChange={doctorChange("password")}
-              />
-              <Msg>{errorMessage.password}</Msg>
-            </div>
+              <div>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="비밀번호"
+                  onChange={doctorChange("password")}
+                />
+                <Msg>{errorMessage.password}</Msg>
+              </div>
 
-            <div>
-              <input
-                id="name"
-                type="text"
-                placeholder="이름"
-                onChange={doctorChange("name")}
-              />
-              <Msg>{errorMessage.name}</Msg>
-            </div>
+              <div>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="이름"
+                  onChange={doctorChange("name")}
+                />
+                <Msg>{errorMessage.name}</Msg>
+              </div>
 
-            <div>
-              <input
-                id="license"
-                type="number"
-                placeholder="면허 번호"
-                onChange={doctorChange("license")}
-              />
-              <Msg>{errorMessage.license}</Msg>
-            </div>
+              <div>
+                <input
+                  id="license"
+                  type="number"
+                  placeholder="면허 번호"
+                  onChange={doctorChange("license")}
+                />
+                <Msg>{errorMessage.license}</Msg>
+              </div>
 
-            <div>
-              <input
-                id="hospital"
-                type="text"
-                placeholder="병원 이름"
-                onChange={doctorChange("hospital")}
-              />
-              <Msg>{errorMessage.confirm}</Msg>
-            </div>
+              <div>
+                <input
+                  id="hospital"
+                  type="text"
+                  placeholder="병원 이름"
+                  onChange={doctorChange("hospital")}
+                />
+                <Msg>{errorMessage.confirm}</Msg>
+              </div>
 
-            <Button onClick={doctorSignUp}>신청하기</Button>
-          </LoginBody>
+              <Button onClick={doctorSignUp}>신청하기</Button>
+            </LoginBody>
+            <LoginFooter>
+              <LoginFeet>
+                <div>아팡 회원이신가요?</div>
+                <span className="span" onClick={swi}>
+                  로그인
+                </span>
+              </LoginFeet>
+            </LoginFooter>
+          </>
         )}
       </ModalBox>
     </ModalBackGround>

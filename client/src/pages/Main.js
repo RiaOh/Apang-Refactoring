@@ -200,7 +200,7 @@ export const ContentWrapFind = styled.div`
 
 export const BoxWrapReview = styled.div`
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3.9rem;
   @media ${({ theme }) => theme.device.mobile} {
     align-items: center;
   }
@@ -224,6 +224,7 @@ export const ContentTitle = styled.p`
   font-size: 2rem;
   margin-bottom: 0.7rem;
   font-weight: 500;
+
   @media ${({ theme }) => theme.device.mobile} {
     font-size: 1.5rem;
     text-align: center;
@@ -234,6 +235,8 @@ export const ContentText = styled.p`
   font-size: 1.3rem;
   margin-bottom: 1.4rem;
   font-weight: 400;
+  border: 0.2rem solid white;
+
   @media ${({ theme }) => theme.device.mobile} {
     font-size: 0.8rem;
     text-align: center;
@@ -244,6 +247,7 @@ export const ContentText = styled.p`
 export const ImgThree = styled.img`
   width: 26rem;
   margin-bottom: 2rem;
+
   @media ${({ theme }) => theme.device.mobile} {
     width: 15rem;
     max-width: 20rem;
@@ -314,7 +318,7 @@ function Main() {
       <MainContainer>
         <MainWrap>
           <Title>어디가 아팡?</Title>
-          <Text>진료과목 선택하러 가기</Text>
+          <Text>진료과목을 선택해보세요</Text>
           <Search>
             <form>
               <SerchButton onClick={() => navigate("/medicallist")}>
@@ -328,30 +332,31 @@ function Main() {
         </ImgWrap>
       </MainContainer>
       <MainContainer>
+        <ContentWrapFind>
+          <ImgThree src={Find}></ImgThree>
+          <BoxWrapFind>
+            <ContentTitle>병원을 검색해보세요</ContentTitle>
+            <ContentText>내 근처의 병원을 쉽게 찾을 수 있어요</ContentText>
+          </BoxWrapFind>
+        </ContentWrapFind>
         <ContentWrapReview>
           <ImgThree src={Review}></ImgThree>
           <BoxWrapReview>
-            <ContentTitle>솔직한 "진짜" 리뷰</ContentTitle>
+            <ContentTitle>솔직한 리뷰를 만나보세요</ContentTitle>
             <ContentText>
-              진료 내역을 인증한 실방문자만 <br />
-              리뷰를 쓸 수 있어요
+              영수증을 인증한 실방문자만 작성이 가능해요
             </ContentText>
           </BoxWrapReview>
         </ContentWrapReview>
         <ContentWrapQna>
           <ImgThree src={Qna}></ImgThree>
           <BoxWrapQna>
-            <ContentTitle>Q&A</ContentTitle>
-            <ContentText>Q&A를 통한 의사와의 소통</ContentText>
+            <ContentTitle>전문가에 질문하세요</ContentTitle>
+            <ContentText>
+              Q&A를 통해 담당 선생님들이 답변을 주실거에요
+            </ContentText>
           </BoxWrapQna>
         </ContentWrapQna>
-        <ContentWrapFind>
-          <ImgThree src={Find}></ImgThree>
-          <BoxWrapFind>
-            <ContentTitle>병원 찾기 기능</ContentTitle>
-            <ContentText>내 근처의 병원을 쉽게 찾을 수 있어요</ContentText>
-          </BoxWrapFind>
-        </ContentWrapFind>
       </MainContainer>
       <MainContainer>
         <Img src={Doc}></Img>

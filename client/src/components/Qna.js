@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { BsTrash } from "react-icons/bs";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import bin from "../images/delete.png";
 
 export const Linked = styled(Link)`
   text-decoration: none;
@@ -35,8 +35,30 @@ export const Profile = styled.div`
   display: flex;
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
-  .Id {
-    margin-left: 0.5rem;
+  & img {
+    width: 1.3rem;
+    @media ${({ theme }) => theme.device.ipad} {
+      width: 1.3rem;
+    }
+    @media ${({ theme }) => theme.device.mobile} {
+      width: 1.3rem;
+    }
+  }
+  & input {
+    outline: none;
+    border: none;
+    width: 76rem;
+    height: 1.3rem;
+    font-size: 0.8rem;
+    padding-left: 0.5rem;
+    :disabled {
+      background: none;
+      color: black;
+    }
+  }
+  .img {
+    width: 1.3rem;
+    height: 1.3rem;
   }
 `;
 
@@ -47,7 +69,6 @@ export const ContentTitle = styled.div`
 `;
 
 export const ContentText = styled.div`
-  // display: flex;
   height: 2.2rem;
   font-size: 0.8rem;
   overflow: hidden;
@@ -58,6 +79,7 @@ export const ContentText = styled.div`
   word-wrap: break-word;
   line-height: 1rem;
   height: 2rem;
+
   @media ${({ theme }) => theme.device.mobile} {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -134,6 +156,8 @@ function Qna({
         Swal.fire({
           icon: "success",
           text: "질문이 성공적으로 삭제되었습니다",
+          showConfirmButton: false,
+          timer: 1000,
         });
       })
       .then(() => {
@@ -151,17 +175,16 @@ function Qna({
               <img
                 src={require(`../../public/uploads/${profile_img}`)}
                 alt="profile"
-                width="20rem"
               />
-              <div className="Id">{nickname}</div>
+              <input disabled type="text" defaultValue={nickname}></input>
               {auth === 0 ? (
-                <BsTrash
+                <img
+                  className="img"
+                  src={bin}
+                  alt="bin"
                   onClick={() => handleQnaDelete(qnaId)}
-                  style={{ marginLeft: "1100px" }}
                 />
-              ) : (
-                ""
-              )}
+              ) : null}
             </Profile>
 
             <ContentTitle>{title}</ContentTitle>
